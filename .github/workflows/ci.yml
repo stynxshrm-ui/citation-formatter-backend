@@ -119,21 +119,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Deploy to Railway
-        uses: railway-app/railway-deploy@v1
-        with:
-          railway-token: ${{ secrets.RAILWAY_TOKEN }}
-          service: citation-formatter-backend
-        env:
-          NODE_ENV: production
-          CORS_ORIGIN: ${{ secrets.FRONTEND_URL }}
-
-      - name: Deploy to Render (Alternative)
-        if: failure()
-        uses: render-actions/deploy@v1
-        with:
-          service-id: ${{ secrets.RENDER_SERVICE_ID }}
-          api-key: ${{ secrets.RENDER_API_KEY }}
-        env:
-          NODE_ENV: production
-          CORS_ORIGIN: ${{ secrets.FRONTEND_URL }}
+      - name: Deploy to Render
+        run: |
+          echo "Deployment will be handled by Render's GitHub integration"
+          echo "Make sure to connect your GitHub repository to Render"
+          echo "Repository: ${{ github.repository }}"
+          echo "Branch: ${{ github.ref_name }}"
