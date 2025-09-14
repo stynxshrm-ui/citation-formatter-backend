@@ -2,25 +2,25 @@
 
 // Conference keywords for venue detection
 const CONFERENCE_KEYWORDS = [
-  'proceedings', 'conference', 'cvpr', 'iccv', 'eccv', 
+  'proceedings', 'conference', 'cvpr', 'iccv', 'eccv',
   'nips', 'icml', 'aaai', 'ijcai', 'acl', 'emnlp'
 ];
 
 // Author formatting by style
 const AUTHOR_FORMATTERS = {
   mla: (author) => {
-    const family = author.family || author.lastName || "Unknown";
-    const given = author.given || author.firstName || "";
+    const family = author.family || author.lastName || 'Unknown';
+    const given = author.given || author.firstName || '';
     return given ? `${family}, ${given}` : family;
   },
   vancouver: (author) => {
-    const family = author.family || author.lastName || "Unknown";
-    const given = author.given || author.firstName || "";
+    const family = author.family || author.lastName || 'Unknown';
+    const given = author.given || author.firstName || '';
     return given ? `${family} ${given.charAt(0)}` : family;
   },
   default: (author) => {
-    const family = author.family || author.lastName || "Unknown";
-    const given = author.given || author.firstName || "";
+    const family = author.family || author.lastName || 'Unknown';
+    const given = author.given || author.firstName || '';
     return given ? `${family}, ${given.charAt(0)}.` : family;
   }
 };
@@ -48,13 +48,13 @@ const CITATION_TEMPLATES = {
  * Format authors according to citation style
  */
 function formatAuthors(authors, style = 'apa') {
-  if (!authors || authors.length === 0) return "Unknown author";
-  
+  if (!authors || authors.length === 0) return 'Unknown author';
+
   const formatter = AUTHOR_FORMATTERS[style] || AUTHOR_FORMATTERS.default;
   const authorList = authors.map(formatter);
-  
+
   if (authorList.length === 1) return authorList[0];
-  
+
   const separator = AUTHOR_SEPARATORS[style] || AUTHOR_SEPARATORS.default;
   return separator(authorList);
 }
@@ -63,14 +63,14 @@ function formatAuthors(authors, style = 'apa') {
  * Format venue for conference proceedings
  */
 function formatVenue(journal, year) {
-  if (!journal) return "Unknown journal";
-  
-  const isConference = CONFERENCE_KEYWORDS.some(keyword => 
+  if (!journal) return 'Unknown journal';
+
+  const isConference = CONFERENCE_KEYWORDS.some(keyword =>
     journal.toLowerCase().includes(keyword)
   );
-  
+
   if (!isConference) return journal;
-  
+
   // Clean up conference names - remove year if it's already in the title
   let cleanJournal = journal;
   if (cleanJournal.includes(year.toString())) {
@@ -83,15 +83,15 @@ function formatVenue(journal, year) {
  * Format citation in specified style
  */
 function formatCitation(paper, style = 'apa') {
-  if (!paper) return "No results found";
-  
-  const title = paper.title || "Unknown title";
-  const year = paper.year || "Unknown year";
-  const journal = paper.journal || paper.venue || "Unknown journal";
-  
+  if (!paper) return 'No results found';
+
+  const title = paper.title || 'Unknown title';
+  const year = paper.year || 'Unknown year';
+  const journal = paper.journal || paper.venue || 'Unknown journal';
+
   const authors = formatAuthors(paper.authors, style);
   const venue = formatVenue(journal, year);
-  
+
   const template = CITATION_TEMPLATES[style] || CITATION_TEMPLATES.apa;
   return template(authors, title, venue, year);
 }
@@ -99,24 +99,24 @@ function formatCitation(paper, style = 'apa') {
 /**
  * Format BibTeX entry
  */
-function formatBibTeX(paper, index) {
-  if (!paper) return "";
-  
-  const title = paper.title || "Unknown title";
-  const year = paper.year || "Unknown year";
-  const journal = paper.journal || paper.venue || "Unknown journal";
-  const doi = paper.doi || "";
-  
-  let authors = "Unknown author";
+function formatBibTeX(paper, _index) {
+  if (!paper) return '';
+
+  const title = paper.title || 'Unknown title';
+  const year = paper.year || 'Unknown year';
+  const journal = paper.journal || paper.venue || 'Unknown journal';
+  const doi = paper.doi || '';
+
+  let authors = 'Unknown author';
   if (paper.authors && paper.authors.length > 0) {
     authors = paper.authors.map(author => {
-      const family = author.family || author.lastName || "Unknown";
-      const given = author.given || author.firstName || "";
+      const family = author.family || author.lastName || 'Unknown';
+      const given = author.given || author.firstName || '';
       return given ? `${family}, ${given}` : family;
     }).join(' and ');
   }
-  
-  return `@article{ref${index + 1},
+
+  return `@article{ref${_index + 1},
   title={${title}},
   author={${authors}},
   journal={${journal}},
@@ -128,23 +128,23 @@ function formatBibTeX(paper, index) {
 /**
  * Format EndNote entry
  */
-function formatEndNote(paper, index) {
-  if (!paper) return "";
-  
-  const title = paper.title || "Unknown title";
-  const year = paper.year || "Unknown year";
-  const journal = paper.journal || paper.venue || "Unknown journal";
-  const doi = paper.doi || "";
-  
-  let authors = "Unknown author";
+function formatEndNote(paper, _index) {
+  if (!paper) return '';
+
+  const title = paper.title || 'Unknown title';
+  const year = paper.year || 'Unknown year';
+  const journal = paper.journal || paper.venue || 'Unknown journal';
+  const doi = paper.doi || '';
+
+  let authors = 'Unknown author';
   if (paper.authors && paper.authors.length > 0) {
     authors = paper.authors.map(author => {
-      const family = author.family || author.lastName || "Unknown";
-      const given = author.given || author.firstName || "";
+      const family = author.family || author.lastName || 'Unknown';
+      const given = author.given || author.firstName || '';
       return given ? `${given} ${family}` : family;
     }).join('\r\n');
   }
-  
+
   return `%0 Journal Article
 %T ${title}
 %A ${authors}

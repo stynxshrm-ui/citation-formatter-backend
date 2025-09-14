@@ -14,32 +14,32 @@ const metrics = {
 // Performance monitoring middleware
 function performanceMiddleware(req, res, next) {
   const startTime = Date.now();
-  
+
   // Override res.end to capture response time
   const originalEnd = res.end;
   res.end = function(...args) {
     const responseTime = Date.now() - startTime;
-    
+
     // Update metrics
     metrics.requestCount++;
     metrics.totalResponseTime += responseTime;
-    
+
     // Log slow requests
     if (responseTime > 1000) {
       logger.warn(`Slow request: ${req.method} ${req.path} took ${responseTime}ms`);
     }
-    
+
     // Call original end
     originalEnd.apply(this, args);
   };
-  
+
   next();
 }
 
 // Track API calls
 function trackAPICall(apiName, startTime, success) {
   const responseTime = Date.now() - startTime;
-  
+
   if (metrics.apiCalls[apiName]) {
     metrics.apiCalls[apiName].count++;
     metrics.apiCalls[apiName].totalTime += responseTime;
@@ -53,7 +53,7 @@ function trackAPICall(apiName, startTime, success) {
 function getMetrics() {
   const uptime = Date.now() - metrics.startTime;
   const avgResponseTime = metrics.requestCount > 0 ? metrics.totalResponseTime / metrics.requestCount : 0;
-  
+
   const apiMetrics = {};
   for (const [apiName, data] of Object.entries(metrics.apiCalls)) {
     apiMetrics[apiName] = {
@@ -62,7 +62,7 @@ function getMetrics() {
       errorRate: data.count > 0 ? (data.errors / data.count) * 100 : 0
     };
   }
-  
+
   return {
     uptime,
     requestCount: metrics.requestCount,

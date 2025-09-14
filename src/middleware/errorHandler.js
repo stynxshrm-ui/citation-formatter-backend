@@ -8,7 +8,7 @@ function notFound(req, res, next) {
 }
 
 // Error handler
-function errorHandler(err, req, res, next) {
+function errorHandler(err, req, res, _next) {
   let error = { ...err };
   error.message = err.message;
 

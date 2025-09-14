@@ -29,7 +29,7 @@ if (process.env.NODE_ENV === 'production') {
     filename: 'logs/error.log',
     level: 'error'
   }));
-  
+
   logger.add(new winston.transports.File({
     filename: 'logs/combined.log'
   }));
