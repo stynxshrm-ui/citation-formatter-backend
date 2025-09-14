@@ -78,15 +78,10 @@ jobs:
       - name: Run Snyk security scan
         uses: snyk/actions/node@master
         continue-on-error: true
-        if: ${{ secrets.SNYK_TOKEN != '' }}
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           args: --severity-threshold=high
-
-      - name: Skip Snyk scan
-        if: ${{ secrets.SNYK_TOKEN == '' }}
-        run: echo "Snyk token not provided, skipping Snyk security scan"
 
   build:
     runs-on: ubuntu-latest
