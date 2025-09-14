@@ -1,5 +1,14 @@
 const request = require('supertest');
-const app = require('../src/server');
+const { app, server } = require('../src/server');
+
+// Close server after tests
+afterAll((done) => {
+  if (server) {
+    server.close(done);
+  } else {
+    done();
+  }
+});
 
 describe('Server', () => {
   describe('GET /health', () => {
