@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: citation-formatter-backend
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: CORS_ORIGIN
+        value: https://your-frontend-domain.vercel.app
+      - key: CROSSREF_API_URL
+        value: https://api.crossref.org
+      - key: SEMANTIC_SCHOLAR_API_URL
+        value: https://api.semanticscholar.org
+      - key: RATE_LIMIT_WINDOW_MS
+        value: 900000
+      - key: RATE_LIMIT_MAX_REQUESTS
+        value: 100
+      - key: LOG_LEVEL
+        value: info
+      - key: CACHE_TTL
+        value: 3600
