@@ -1,6 +1,21 @@
 const express = require('express');
 const router = express.Router();
 
+// Root endpoint
+router.get('/', (req, res) => {
+  res.json({
+    message: 'Citation Formatter API',
+    version: '1.0.0',
+    status: 'running',
+    endpoints: {
+      health: '/health',
+      format: '/api/format',
+      lookup: '/api/lookup',
+      download: '/api/download'
+    }
+  });
+});
+
 // Health check endpoint
 router.get('/health', (req, res) => {
   res.json({
