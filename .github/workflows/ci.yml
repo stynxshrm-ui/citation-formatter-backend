@@ -100,19 +100,15 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build Docker image (temporarily disabled due to registry issues)
-        run: |
-          echo "Docker build temporarily disabled due to registry issues"
-          echo "This will be re-enabled once Docker Hub is stable"
-          # npm run docker:build
+      - name: Build Docker image
+        run: npm run docker:build
 
-      - name: Test Docker image (temporarily disabled)
+      - name: Test Docker image
         run: |
-          echo "Docker test temporarily disabled due to registry issues"
-          # docker run --rm -d -p 3000:3000 --name test-container citation-formatter-backend
-          # sleep 10
-          # curl -f http://localhost:3000/health || exit 1
-          # docker stop test-container
+          docker run --rm -d -p 3000:3000 --name test-container citation-formatter-backend
+          sleep 10
+          curl -f http://localhost:3000/health || exit 1
+          docker stop test-container
 
   deploy:
     runs-on: ubuntu-latest
