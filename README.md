@@ -185,4 +185,4 @@ This project is licensed under the MIT License.
 
 ## 📞 Support
 
-For support, email your-email@example.com or create an issue in the repository.
+For support, create an issue in the repository.
